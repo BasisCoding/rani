@@ -1,0 +1,39 @@
+url       = "letter/add"
+layout    = "default"
+is_hidden = 0
+
+[AdminLetter]
+==
+function onEnd() {
+    $this->page->activePage = 'admin-letter';
+    $this->page->title      = 'Buat Berita';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Berita Acara',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+<div class="mg-b-20">
+    {% partial 'button/button-back' page='report/index'|page %}
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminLetter::onSave', {'data-request-flash': '', 'data-request-files': ''}) }}
+            {% partial 'letter/form' %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

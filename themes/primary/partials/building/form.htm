@@ -1,0 +1,14 @@
+<div class="form-group">
+    <label>Kantor</label>
+    <select name="office_id" class="form-control">
+        <option value="">-- Pilih --</option>
+        {% for office in offices %}
+        <option {{ selectedOffice == office.id ? 'selected' : '' }} value="{{ office.id }}">{{ office.name }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label>Nama</label>
+    <input type="text" class="form-control" name="name" value="{{ building.name }}">
+</div>

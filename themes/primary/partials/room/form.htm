@@ -1,0 +1,25 @@
+<div class="form-group">
+    <label>Denah Ruangan</label>
+    {% component 'layoutUploader' %}
+</div>
+
+<div class="form-group">
+    <label>Kantor</label>
+    <select name="office_id" class="form-control"
+    	data-request="AdminRoom::onSelectOffice"
+		data-request-update="'room/select-building': '[data-target-buildings]'">
+        <option value="">-- Pilih --</option>
+        {% for office in offices %}
+        <option {{ selectedOffice == office.id ? 'selected' : '' }} value="{{ office.id }}">{{ office.name }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div data-target-buildings>
+	{% partial 'room/select-building' buildings=buildings selectedBuilding=selectedBuilding %}
+</div>
+
+<div class="form-group">
+    <label>Nama</label>
+    <input type="text" class="form-control" name="name" value="{{ room.name }}">
+</div>

@@ -1,0 +1,51 @@
+url       = "category/item/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminCategoryItem]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'asset';
+    $this->page->activePage = 'category';
+    $this->page->title      = 'Daftar Asset '.$this->category->name;
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Master Data',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+<div class="card">
+    <div class="card-header">
+        <div class="mr-auto">
+            {% partial 'button/button-back' page='category/index'|page %}
+        </div>
+        <div class="ml-auto">
+            <button type="button" class="btn btn-primary"
+                data-request="onRequestAdd"
+                data-request-success="$('#modalItem').modal('show')"
+                data-request-update="'category/form-item': '[data-target-form]'"
+                data-attach-loading>
+                <i class="fa fa-plus-circle"></i> TAMBAH DATA
+            </button>
+        </div>
+    </div>
+
+    <div class="card-body pd-0" data-target-categories>
+        {% partial 'category/table-item' %}
+    </div>
+</div>
+
+<div class="modal fade" id="modalItem">
+    <div class="modal-dialog" data-target-form>
+
+    </div>
+</div>

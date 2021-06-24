@@ -1,0 +1,240 @@
+url       = "asset/edit/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminAsset]
+
+[AdminAssetDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'asset';
+    $this->page->activePage = 'asset';
+    $this->page->title      = $this->asset->code;
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Asset',
+            'url'   => 'asset/index'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set statuses        = AdminAsset.getStatus %}
+{% set offices         = AdminAsset.getOffice %}
+{% set buildings       = AdminAsset.getBuilding(asset.room.building.office.id) %}
+{% set rooms           = AdminAsset.getRoom(asset.room.building.id) %}
+{% set employees       = AdminAsset.getEmployee %}
+{% set partners        = AdminAsset.getPartner %}
+
+<div class="row mg-b-30">
+    <div class="col">
+        {% partial 'button/button-back' page='asset/index'|page %}
+    </div>
+</div>
+
+<div class="card">
+    <form data-request="onUpdate" data-request-flash data-request-confirm="Perbarui asset ini?">
+        {# Before #}
+        <div class="card-header">
+            <h4>DATA SEBELUMNYA</h4>
+
+            <div class="ml-auto">
+                <a href="#" class="btn btn-xs btn-primary"
+                    data-request="onViewHistory"
+                    data-request-success="$('#modalHistory').modal('show')"
+                    data-request-update="'asset/table-history': '[data-target-histories]'">
+                    <i class="fa fa-info-circle"></i> SELENGKAPNYA
+                </a>
+            </div>
+        </div>
+        <div class="card-body pd-b-0">
+            <div class="form-group">
+                <label>Status <i class="fa fa-question-circle" data-toggle="tooltip" data-title="{{ asset.status.description }}"></i></label>
+                <select name="" class="form-control">
+                    <option value="">{{ asset.status.name }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tanggal</label> <small class="text-muted">(yyyy-mm-dd)</small>
+                <select name="" class="form-control">
+                    <option value="">{{ asset.acquisitioned_at|date('Y-m-d') }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Kantor</label>
+                <select name="" class="form-control">
+                    <option value="">{{ asset.room.building.office.name }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Gedung</label>
+                <select name="" class="form-control">
+                    <option value="">{{ asset.room.building.name }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Ruangan</label>
+                <select name="" class="form-control">
+                    <option value="">{{ asset.room.name }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Pengguna</label>
+                <select name="" class="form-control">
+                    <option value="">{{ asset.employee.name ?: 'Tidak ada pengguna' }}</option>
+                </select>
+            </div>
+        </div>
+
+
+        {# Current #}
+         <div class="card-header">
+            <h4>DATA SEKARANG</h4>
+        </div>
+        <div class="card-body pd-b-0">
+            <div class="form-group">
+                <label>Status</label>
+                <select name="status_id" class="form-control">
+                    <option value="">-- Pilih --</option>
+                    {% for status in statuses %}
+                    <option value="{{ status.id }}">{{ status.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tanggal</label> <small class="text-muted">(yyyy-mm-dd)</small>
+                <input name="acquisitioned_at" type="text" class="form-control" data-datemask>
+            </div>
+
+            <div class="form-group">
+                <label>Kantor</label>
+                <input type="hidden" name="layout_x"  data-target-layout-x>
+                <input type="hidden" name="layout_y"  data-target-layout-y>
+                <select name="office_id" class="form-control"
+                    data-request="onSelectOffice"
+                    data-request-update="'asset/select-building': '[data-target-buildings]', 'asset/select-room': '[data-target-rooms]'">
+                    <option value="">-- Pilih --</option>
+                    {% for office in offices %}
+                    <option value="{{ office.id }}">{{ office.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group" data-target-buildings>
+                {% partial 'asset/select-building' buildings=buildings %}
+            </div>
+
+            <div class="form-group" data-target-rooms>
+                {% partial 'asset/select-room' rooms=rooms %}
+            </div>
+
+            <div class="form-group">
+                <label>Pengguna</label> <small class="text-muted">(Opsional)</small>
+                <select name="employee_id" class="form-control">
+                    <option value="">-- Pilih --</option>
+                    {% for employee in employees %}
+                    <option value="{{ employee.id }}">{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        {# Partner #}
+        <div class="card-header">
+            <h4>DATA MITRA</h4>
+        </div>
+        <div class="card-body pd-b-0">
+            <div class="form-group">
+                <label>Mitra</label> <small class="text-muted"> (Opsional)</small>
+                <select name="partner_id" class="form-control">
+                    <option value="">-- Pilih --</option>
+                    {% for partners in partners %}
+                    <option value="{{ partners.id }}">{{ partners.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="card-body mg-b-20">
+            <div class="row">
+                <div class="col-2">
+                    <button class="btn btn-info btn-block" type="button"
+                        data-request="AdminAssetDetail::onCompare"
+                        data-request-success="$('#modalCompare').modal('show')"
+                        data-request-update="'asset/table-compare': '[data-target-compare]'"
+                        data-request-data="">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade" id="modalCompare">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header mg-b-20">
+                <h4 class="modal-title text-center w-100">TABEL PERBANDINGAN</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body pd-0" data-target-compare></div>
+            <div class="text-center mg-b-20 mg-t-20">
+                <a href="#" class="btn btn-danger" data-dismiss="modal">TUTUP</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalHistory">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header mg-b-20">
+                <h4 class="modal-title text-center w-100">RIWAYAT ASSET</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body" data-target-histories></div>
+            <div class="text-center mg-b-20 mg-t-20">
+                <a href="#" class="btn btn-danger" data-dismiss="modal">TUTUP</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalLayout">
+    <div class="modal-dialog modal-lg" role="document" data-request-layouts>
+        {% partial 'asset/room-layout' %}
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% put scripts %}
+<script>
+$('body').on('click', '.layout-room', function(){
+    var el = $(this);
+    var elOffset   = el.offset();
+    var offsetLeft = event.pageX - elOffset.left - 20;
+    var offsetTop  = event.pageY - elOffset.top - 50;
+    $('#marker').remove();
+    el.append(
+        '<img id="marker" src="https://raw.githubusercontent.com/muhammad-ihsan/ams/master/public/images/marker-default.png" class="marker-default" style="left:'+ offsetLeft +'px; top:'+  offsetTop +'px"></img>'
+    );
+    $('[data-target-layout-x]').val(offsetLeft);
+    $('[data-target-layout-y]').val(offsetTop)
+});
+</script>
+{% endput %}

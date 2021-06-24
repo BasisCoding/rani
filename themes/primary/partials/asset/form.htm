@@ -1,0 +1,145 @@
+<div class="card">
+    <div class="card-header">
+        <h4>INFORMASI ASSET</h4>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label>Asset</label>
+            <select name="asset_id" class="form-control"
+                data-request="onSelectAsset"
+                data-request-update="'asset/input-name': '[data-target-names]','asset/select-category-parent': '[data-target-category-parents]', 'asset/select-category': '[data-target-categories]'">
+                <option value="">-- Pilih --</option>
+                <option value="new">Buat Baru</option>
+                {% for asset in assets %}
+                <option value="{{ asset.id }}">{{ asset.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+            <select name="status_id" class="form-control">
+                <option value="">-- Pilih --</option>
+                {% for status in statuses %}
+                <option value="{{ status.id }}">{{ status.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group" data-target-category-parents>
+            {% partial 'asset/select-category-parent' categories=categories %}
+        </div>
+
+        <div data-target-categories>
+            {% partial 'asset/select-category' categories=childCategories %}
+        </div>
+
+        <div data-target-qtys>
+            <div class="form-group">
+                <label>Kuantitas</label>
+                <select name="qty" class="form-control">
+                    <option value="">-- Pilih --</option>
+                    {% for i in 1..50 %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div data-target-names>
+            {% partial 'asset/input-name' %}
+        </div>
+
+        <div class="form-group">
+            <label>Tanggal Akusisi<small class="text-muted"> (yyyy-mm-dd)</small></label>
+            <input type="text" class="form-control" name="acquisitioned_at" value="{{ asset.acquisitioned_at }}" data-datemask>
+        </div>
+    </div>
+
+    <div class="card-header">
+        <h4>INFORMASI LOKASI</h4>
+    </div>
+    <div class="card-body">
+        <input type="hidden" name="layout_x" data-target-layout-x>
+        <input type="hidden" name="layout_y" data-target-layout-y>
+        <div class="form-group">
+            <label>Kantor</label>
+            <select name="office_id" class="form-control"
+                data-request="onSelectOffice"
+                data-request-update="'asset/select-building': '[data-target-buildings]', 'asset/select-room': '[data-target-rooms]'">
+                <option value="">-- Pilih --</option>
+                {% for office in offices %}
+                <option {{ selectedOffice == office.id ? 'selected' : '' }} value="{{ office.id }}">{{ office.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div data-target-buildings>
+            {% partial 'asset/select-building' %}
+        </div>
+
+        <div data-target-rooms>
+            {% partial 'asset/select-room' %}
+        </div>
+    </div>
+
+    <div class="card-header">
+        <h4>INFORMASI PENGGUNA</h4>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label>Pengguna</label> <small class="text-muted">(Opsional)</small>
+            <select name="employee_id" class="form-control">
+                <option value="">-- Pilih --</option>
+                {% for employee in employees %}
+                <option value="{{ employee.id }}">{{ employee.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="card-header">
+        <h4>INFORMASI MITRA</h4>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label>Mitra</label> <small class="text-muted">(Opsional)</small>
+            <select name="partner_id" class="form-control">
+                <option value="">-- Pilih --</option>
+                {% for partner in partners %}
+                <option value="{{ partner.id }}">{{ partner.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="form-group">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalLayout">
+    <div class="modal-dialog modal-lg" role="document" data-request-layouts>
+        {% partial 'asset/room-layout' %}
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% put scripts %}
+<script>
+$('body').on('click', '.layout-room', function(){
+    var el = $(this);
+    var elOffset   = el.offset();
+    var offsetLeft = event.pageX - elOffset.left - 20;
+    var offsetTop  = event.pageY - elOffset.top - 50;
+    $('#marker').remove();
+    el.append(
+        '<img id="marker" src="https://raw.githubusercontent.com/muhammad-ihsan/ams/master/public/images/marker-default.png" class="marker-default" style="left:'+ offsetLeft +'px; top:'+  offsetTop +'px"></img>'
+    );
+    $('[data-target-layout-x]').val(offsetLeft);
+    $('[data-target-layout-y]').val(offsetTop)
+});
+</script>
+{% endput %}

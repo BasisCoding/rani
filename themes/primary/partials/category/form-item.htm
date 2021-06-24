@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title w-100 text-center">{{ category ? 'UBAH DATA' : 'BUAT BARU' }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+		<form data-request="AdminCategoryItem::onSave"
+			data-request-update="'category/table-item': '[data-target-categories]'"
+			data-request-success="$('#modalItem').modal('hide'); initDatatable()"
+			data-request-flash>
+			<input type="hidden" name="parameter" value="{{ category.parameter }}">
+
+			<div class="form-group">
+				<label>Nama</label>
+				<input type="text" class="form-control" name="name" value="{{ category.name }}">
+			</div>
+
+			<div class="form-group">
+				<label></label>
+				<button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+			</div>
+		</form>
+    </div>
+</div>
+
+

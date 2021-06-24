@@ -1,0 +1,40 @@
+url       = "partner-category/edit/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminPartnerCategoryDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'partner';
+    $this->page->activePage = 'partner-category';
+    $this->page->title      = 'Ubah Kategori Mitra';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Mitra',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+<div class="card">
+    <div class="card-body">
+        <form data-request="onSave" data-request-flash>
+            <div class="form-group">
+                <label>Nama</label>
+                <input name="name" type="text" class="form-control" value="{{ category.name }}">
+            </div>
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        </form>
+    </div>
+</div>

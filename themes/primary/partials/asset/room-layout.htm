@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div class="modal-header mg-b-30">
+        <h4 class="modal-title w-100 text-center">{{ room.name|upper }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+    </div>
+    <div class="modal-body pd-0">
+        {% if room.layout %}
+            <div class="layout-room">
+                <img src="{{ room.layout.getPath() }}" alt="" style="img-full">
+            </div>
+            <hr>
+            <div class="text-center mg-t-20 mg-b-20">
+                <a href="#" class="btn btn-primary" data-dismiss="modal">SELESAI</a>
+            </div>
+        {% else %}
+            <div class="pd-20">
+                <p class="lead text-content">
+                    Tidak ditemukan layout pada ruangan <b>{{ room.name }}</b>.
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</div><!-- /.modal-content -->

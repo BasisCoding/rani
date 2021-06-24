@@ -1,0 +1,61 @@
+<table class="table datatable">
+    <tfoot>
+         <tr>
+            <th class="hidden-search"></th>
+            <th>Kode</th>
+            <th>Kategori</th>
+            <th>Jenis</th>
+            <th>Kantor</th>
+            <th>Gedung</th>
+            <th>Ruang</th>
+            <th>Status</th>
+            <th>Tanggal Dibuat</th>
+        </tr>
+    </tfoot>
+
+    <thead>
+        <tr>
+            <th style="padding: 8px 10px;">
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox" data-checkboxes="assetGroup" data-checkbox-role="dad" class="custom-control-input" id="checkbox-all">
+                    <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                </div>
+            </th>
+            <th>Kode</th>
+            <th>Kategori</th>
+            <th>Jenis</th>
+            <th>Kantor</th>
+            <th>Gedung</th>
+            <th>Ruang</th>
+            <th>Status</th>
+            <th>Tanggal Dibuat</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for key, item in items %}
+        <tr>
+            <td style="width: 20px; margin-left: 3px">
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox" name="checkbox_action[]" data-checkboxes="assetGroup" class="custom-control-input" id="checkbox-{{ key }}" value="{{ item.parameter }}">
+                    <label for="checkbox-{{ key }}" class="custom-control-label">&nbsp;</label>
+                </div>
+            </td>
+            <td>
+                {{ item.code }} <br>
+                <small class="text-muted">{{ item.parent.name }}</small>
+                <div class="table-links">
+                    <a href="{{ 'asset/detail'|page({parameter: item.parameter}) }}">Lihat</a>
+                </div>
+            </td>
+            <td>{{ item.parent.category.parent.name }}</td>
+            <td>{{ item.parent.category.name }}</td>
+            <td>{{ item.room.building.office.name }}</td>
+            <td>{{ item.room.building.name }}</td>
+            <td>{{ item.room.name }}</td>
+            <td><i class="fa fa-question-circle" data-toggle="tooltip" data-title="{{ item.status.description }}"></i> {{ item.status.name }}</td>
+            <td>{{ item.created_at|date('Y-m-d H:i') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,118 @@
+title     = "Dashboard"
+url       = "/dashboard"
+layout    = "default"
+is_hidden = 0
+
+[AdminDashboard]
+==
+function onEnd() {
+	$this->page->activePage = 'admin-dashboard';
+}
+==
+
+<div class="row">
+    <div class="col-md-4 col-sm-6 col-12">
+        <div class="card card-statistic-1">
+            <div class="card-icon bg-primary">
+                <i class="fas fa-id-card"></i>
+            </div>
+            <div class="card-wrap">
+                <div class="card-header">
+                    <h4>Total Pengguna</h4>
+                </div>
+                <div class="card-body">
+                {{ AdminDashboard.getEmployee().count() }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-12">
+        <div class="card card-statistic-1">
+            <div class="card-icon bg-success">
+                <i class="fas fa-cube"></i>
+            </div>
+            <div class="card-wrap">
+                <div class="card-header">
+                    <h4>Total Asset</h4>
+                </div>
+                <div class="card-body">
+                    {{ AdminDashboard.getAsset().count() }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-12">
+        <div class="card card-statistic-1">
+            <div class="card-icon bg-warning">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="card-wrap">
+                <div class="card-header">
+                    <h4>Total Laporan</h4>
+                </div>
+                <div class="card-body">
+                    {{ AdminDashboard.getReport().count() }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>GRAFIS ARUS ASET</h4>
+
+                <div class="ml-auto">
+                    <select
+                        name="date" class="form-control"
+                        data-request="AdminDashboard::onChangeAssetTimelineFilter"
+                        data-request-update="'dashboard/chart-timeline-asset': '[data-target-chart-timeline-asset]', 'dashboard/chart-timeline-asset-script': '[data-target-chart-timeline-asset-script]'"
+                    >
+                        {% for date in AdminDashboard.getDateArray() %}
+                        <option value="{{ date }}" {{ date == currentYear ? 'selected' : '' }}>Tahun {{ date }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="card-body" data-target-chart-timeline-asset>
+                {% partial 'dashboard/chart-timeline-asset' %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>GRAFIS LAPORAN ASET</h4>
+
+                <div class="ml-auto">
+                    <select
+                        name="date" class="form-control"
+                        data-request="AdminDashboard::onChangeReportTimelineFilter"
+                        data-request-update="'dashboard/chart-timeline-report': '[data-target-chart-timeline-report]', 'dashboard/chart-timeline-report-script': '[data-target-chart-timeline-report-script]'"
+                    >
+                        {% for date in AdminDashboard.getDateArray() %}
+                        <option value="{{ date }}" {{ date == currentYear ? 'selected' : '' }}>Tahun {{ date }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="card-body" data-target-chart-timeline-report>
+                {% partial 'dashboard/chart-timeline-report' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% put scripts %}
+<div data-target-chart-timeline-asset-script>
+    {% partial 'dashboard/chart-timeline-asset-script' timelines=AdminDashboard.getAssetTimeline(currentYear) %}
+</div>
+
+<div data-target-chart-timeline-report-script>
+    {% partial 'dashboard/chart-timeline-report-script' timelines=AdminDashboard.getReportTimeline(currentYear) %}
+</div>
+{% endput %}

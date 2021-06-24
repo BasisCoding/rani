@@ -1,0 +1,4 @@
+1.0.1: First version of Report
+1.0.2:
+  - Init report base table
+  - create_reports_table.php

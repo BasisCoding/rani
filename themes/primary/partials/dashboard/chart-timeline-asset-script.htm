@@ -1,0 +1,52 @@
+<script>
+var ctx     = document.getElementById("chartTimelineAsset").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [
+            {% for timeline in timelines['lable'] %}
+                '{{ timeline }}',
+            {% endfor %}
+        ],
+        datasets: [{
+            label: 'Total Aset',
+            data: [
+                {% for timeline in timelines['data'] %}
+                    '{{ timeline }}',
+                {% endfor %}
+            ],
+            borderWidth: 2,
+            backgroundColor: '#009cff',
+            borderColor: '#009cff',
+            borderWidth: 2.5,
+            pointBackgroundColor: '#ffffff',
+            pointRadius: 4
+        }]
+    },
+    options: {
+        legend: {
+          display: false
+        },
+        scales: {
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false,
+                    color: '#f2f2f2',
+                },
+                ticks: {
+                    beginAtZero: true,
+                    stepSize: 150
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    display: false
+                },
+                gridLines: {
+                    display: false
+                }
+            }]
+    },
+}
+});
+</script>

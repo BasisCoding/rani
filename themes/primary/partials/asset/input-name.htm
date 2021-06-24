@@ -1,0 +1,4 @@
+<div class="form-group {{ asset ? 'd-none' : '' }}">
+    <label>Nama</label>
+    <input type="text" class="form-control" name="name" value="{{ asset.name }}" {{ asset ? 'readonly' : '' }}>
+</div>

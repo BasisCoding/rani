@@ -1,0 +1,9 @@
+<label>Kategori</label>
+<select name="parent_id" class="form-control"
+    data-request="onSelectParentCategory"
+    data-request-update="'asset/select-category': '[data-target-categories]'">
+    <option value="">-- Pilih --</option>
+    {% for category in categories %}
+    <option {{ selectedCategory == category.id ? 'selected' : '' }} value="{{ category.id }}">{{ category.name }}</option>
+    {% endfor %}
+</select>

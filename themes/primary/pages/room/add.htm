@@ -1,0 +1,41 @@
+url       = "room/add"
+layout    = "default"
+is_hidden = 0
+
+[AdminRoom]
+==
+function onEnd() {
+    $this->page->parentPage = 'location';
+    $this->page->activePage = 'room';
+    $this->page->title      = 'Buat Baru';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Lokasi',
+            'url'   => '#'
+        ],[
+            'title' => 'Ruangan',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set offices   = AdminRoom.getOffice %}
+{% set buildings = AdminRoom.getBuilding %}
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminRoom::onSave', {'data-request-flash': ''}) }}
+            {% partial 'room/form' offices=offices buildings=buildings %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

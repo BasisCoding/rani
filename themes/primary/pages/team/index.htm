@@ -1,0 +1,79 @@
+url       = "team"
+layout    = "default"
+is_hidden = 0
+
+[AdminTeam]
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'team';
+    $this->page->title      = 'Daftar Team';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Pengguna',
+            'url'   => '#'
+        ],[
+            'title' => 'Team',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set teams = AdminTeam.getAll %}
+<div class="card">
+    <div class="card-header">
+        <div class="ml-auto">
+            {% partial 'button/button-add' page='team/add'|page %}
+        </div>
+    </div>
+
+    <div class="card-body pd-0">
+        <table class="table datatable mg-b-0">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Department</th>
+                    <th>Kantor</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>Nama</th>
+                    <th>Department</th>
+                    <th>Kantor</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% for team in teams %}
+                <tr>
+                    <td>
+                        {{ team.name }}
+                        <div class="table-links">
+                            <a href="{{ 'team/edit'|page({parameter: team.parameter}) }}">Ubah</a>
+                            <div class="bullet"></div>
+                            <a href="#" class="text-danger"
+                                data-request="AdminTeam::onDelete"
+                                data-request-data="'parameter': '{{ team.parameter }}'"
+                                data-request-confirm="Hapus team ini?"
+                                data-attach-loading data-request-flash>Hapus</a>
+                        </div>
+                    </td>
+                    <td>{{ team.department.name }}</td>
+                    <td>{{ team.department.office.name }}</td>
+                    <td>{{ team.created_at|date('Y-m-d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

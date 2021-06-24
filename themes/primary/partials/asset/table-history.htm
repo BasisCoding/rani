@@ -1,0 +1,39 @@
+{% for key, history in asset.reoderHistory %}
+<div class="card mg-b-0">
+    <div class="card-header" data-toggle="collapse" data-target="#historyCollapse{{ key }}">
+        <h4>{{ history.acquisitioned_at|date('d F Y') }}</h4>
+
+        {% if key == 0 %}
+        <div class="ml-auto">Sekarang</div>
+        {% endif %}
+    </div>
+    <div class="card-body pd-0 collapse {{ key == 0 ? 'show' }}" id="historyCollapse{{ key }}">
+        <table class="table mg-b-0 table-bordered">
+            <tr>
+                <td>Tanggal</td>
+                <td class="text-right">{{ history.acquisitioned_at|date('d F Y') }}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td class="text-right">{{ history.status.name }}</td>
+            </tr>
+            <tr>
+                <td>Kantor</td>
+                <td class="text-right">{{ history.room.building.office.name }}</td>
+            </tr>
+            <tr>
+                <td>Gedung</td>
+                <td class="text-right">{{ history.room.building.name }}</td>
+            </tr>
+            <tr>
+                <td>Ruang</td>
+                <td class="text-right">{{ history.room.name }}</td>
+            </tr>
+            <tr>
+                <td>Pengguna</td>
+                <td class="text-right">{{ history.employee.name ?: 'Tidak ada data' }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endfor %}

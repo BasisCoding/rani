@@ -1,0 +1,7 @@
+1.0.1: First version of Employee
+1.0.2:
+    - Init Employee Base Table
+    - create_employees_table.php
+    - create_departments_table.php
+    - create_teams_table.php
+    - create_units_table.php

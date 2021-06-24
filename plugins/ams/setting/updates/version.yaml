@@ -1,0 +1,4 @@
+1.0.1: First version of Setting
+1.0.2:
+    - Init setting base table
+    - create_settings_table.php

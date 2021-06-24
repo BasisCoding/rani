@@ -1,0 +1,83 @@
+url       = "category"
+layout    = "default"
+is_hidden = 0
+
+[AdminCategory]
+==
+function onEnd() {
+    $this->page->parentPage = 'asset';
+    $this->page->activePage = 'category';
+    $this->page->title      = 'Daftar Kategori Asset';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Asset',
+            'url'   => '#'
+        ],[
+            'title' => 'Kategori',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set categories = AdminCategory.getAll %}
+<div class="card">
+    <div class="card-header">
+        <div class="ml-auto">
+            {% partial 'button/button-add' page='category/add'|page %}
+        </div>
+    </div>
+
+    <div class="card-body pd-0">
+        <table class="table datatable mg-b-0">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Kode</th>
+                    <th>Item</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>Nama</th>
+                    <th>Kode</th>
+                    <th>Item</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td>
+                        {{ category.name }}
+                        <div class="table-links">
+                            <a href="{{ 'category/item'|page({parameter: category.parameter}) }}">Lihat</a>
+                            {% if not category.is_other %}
+                            <div class="bullet"></div>
+                            <a href="{{ 'category/edit'|page({parameter: category.parameter}) }}">Ubah</a>
+                            <div class="bullet"></div>
+                            <a href="#" class="text-danger"
+                                data-request="AdminCategory::onDelete"
+                                data-request-data="'parameter': '{{ category.parameter }}'"
+                                data-request-confirm="Hapus kategori asset ini?"
+                                data-attach-loading data-request-flash>Hapus</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>{{ category.code }}</td>
+                    <td>{{ category.childs.count }} Items</td>
+                    <td>{{ category.created_at|date('Y-m-d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

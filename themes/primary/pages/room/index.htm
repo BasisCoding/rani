@@ -1,0 +1,79 @@
+url       = "room"
+layout    = "default"
+is_hidden = 0
+
+[AdminRoom]
+==
+function onEnd() {
+    $this->page->parentPage = 'location';
+    $this->page->activePage = 'room';
+    $this->page->title      = 'Daftar Ruangan';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Lokasi',
+            'url'   => '#'
+        ],[
+            'title' => 'Ruangan',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set rooms = AdminRoom.getAll %}
+<div class="card">
+    <div class="card-header">
+        <div class="ml-auto">
+            {% partial 'button/button-add' page='room/add'|page %}
+        </div>
+    </div>
+
+    <div class="card-body pd-0">
+        <table class="table datatable mg-b-0">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Gedung</th>
+                    <th>Kantor</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>Nama</th>
+                    <th>Gedung</th>
+                    <th>Kantor</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>
+                        {{ room.name }}
+                        <div class="table-links">
+                            <a href="{{ 'room/edit'|page({parameter: room.parameter}) }}">Ubah</a>
+                            <div class="bullet"></div>
+                            <a href="#" class="text-danger"
+                                data-request="onDelete"
+                                data-request-data="'parameter': '{{ room.parameter }}'"
+                                data-request-confirm="Hapus kantor ini?"
+                                data-attach-loading data-request-flash>Hapus</a>
+                        </div>
+                    </td>
+                    <td>{{ room.building.name }}</td>
+                    <td>{{ room.building.office.name }}</td>
+                    <td>{{ room.created_at|date('Y-m-d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

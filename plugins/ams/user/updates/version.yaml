@@ -1,0 +1,10 @@
+1.0.1: First version of User
+1.0.2:
+    - init user base table
+    - create_users_table.php
+1.0.3:
+    - init tokens base table
+    - create_tokens_table.php
+1.0.4:
+  - init user location base table
+  - create_locations_table.php

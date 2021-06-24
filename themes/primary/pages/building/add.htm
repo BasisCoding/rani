@@ -1,0 +1,42 @@
+url       = "building/add"
+layout    = "default"
+is_hidden = 0
+
+[AdminOffice]
+
+[AdminBuilding]
+==
+function onEnd() {
+    $this->page->parentPage = 'location';
+    $this->page->activePage = 'building';
+    $this->page->title      = 'Buat Baru';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Lokasi',
+            'url'   => '#'
+        ],[
+            'title' => 'Gedung',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set offices = AdminOffice.getAll %}
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminBuilding::onSave', {'data-request-flash': ''}) }}
+            {% partial 'building/form' offices=offices %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

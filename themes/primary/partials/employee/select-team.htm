@@ -1,0 +1,11 @@
+<div class="form-group">
+    <label>Team</label>
+    <select name="team_id" class="form-control"
+        data-request="onSelectTeam"
+        data-request-update="'employee/select-unit': '[data-target-units]'">
+        <option value="">-- Pilih --</option>
+        {% for team in teams %}
+        <option {{ selectedTeam == team.id ? 'selected' : '' }} value="{{ team.id }}">{{ team.name }}</option>
+        {% endfor %}
+    </select>
+</div>

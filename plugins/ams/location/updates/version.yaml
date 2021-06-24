@@ -1,0 +1,12 @@
+1.0.1: First version of Location
+1.0.2:
+  - init location base table
+  - create_provinces_table.php
+  - create_regencies_table.php
+  - create_districts_table.php
+  - create_villages_table.php
+1.0.3:
+    - Init office, building and room base table
+    - create_offices_table.php
+    - create_buildings_table.php
+    - create_rooms_table.php

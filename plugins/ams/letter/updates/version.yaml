@@ -1,0 +1,4 @@
+1.0.1: First version of Letter
+1.0.2:
+    - init letter base table
+    - create_letters_table.php

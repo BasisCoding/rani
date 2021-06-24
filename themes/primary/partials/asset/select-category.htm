@@ -1,0 +1,9 @@
+<div class="form-group">
+    <label>Jenis</label>
+    <select name="category_id" class="form-control">
+        <option value="">-- Pilih --</option>
+        {% for category in childCategories %}
+        <option {{ selectedChildCategory == category.id ? 'selected' : '' }} value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
+</div>

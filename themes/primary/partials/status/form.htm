@@ -1,0 +1,23 @@
+<div class="form-group">
+    <label>Nama</label>
+    <input type="text" class="form-control" name="name" value="{{ status.name }}">
+</div>
+
+<div class="form-group">
+	<label>Warna</label>
+	<div class="input-group" data-colorpicker-id="2">
+		<div class="input-group colorpickerinput">
+			<input type="text" class="form-control" name="color" value="{{ status.color }}">
+			<div class="input-group-append">
+				<div class="input-group-text">
+					<i class="fas fa-fill-drip"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+    <label>Deskripsi</label>
+    <textarea name="description" rows="10" class="form-control">{{ status.description }}</textarea>
+</div>

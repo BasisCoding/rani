@@ -1,0 +1,82 @@
+url       = "employee"
+layout    = "default"
+is_hidden = 0
+
+[AdminEmployee]
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'employee';
+    $this->page->title      = 'Daftar Pengguna';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Pengguna',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set employees = AdminEmployee.getAll %}
+<div class="card">
+    <div class="card-header">
+        <div class="ml-auto">
+            {% partial 'button/button-add' page='employee/add' %}
+        </div>
+    </div>
+
+    <div class="card-body pd-0">
+        <table class="table datatable mg-b-0">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>ID</th>
+                    <th>Department</th>
+                    <th>Team</th>
+                    <th>Unit</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>Nama</th>
+                    <th>ID</th>
+                    <th>Department</th>
+                    <th>Team</th>
+                    <th>Unit</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td>
+                        {{ employee.name }}
+                        <div class="table-links">
+                            <a href="{{ 'employee/edit'|page({parameter: employee.parameter}) }}">Ubah</a>
+                            <div class="bullet"></div>
+                            <a href="#" class="text-danger"
+                                data-request="AdminEmployee::onDelete"
+                                data-request-data="'parameter': '{{ employee.parameter }}'"
+                                data-request-confirm="Hapus pengguna ini?"
+                                data-attach-loading data-request-flash>Hapus</a>
+                        </div>
+                    </td>
+                    <td>{{ employee.code ? employee.code : 'Tidak ada data' }}</td>
+                    <td>{{ employee.department ? employee.department.name : 'Tidak ada data' }}</td>
+                    <td>{{ employee.team ? employee.team.name : 'Tidak ada data' }}</td>
+                    <td>{{ employee.unit ? employee.unit.name : 'Tidak ada data' }}</td>
+                    <td>{{ employee.created_at|date('Y-m-d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="form-group">
+    <label>Gedung</label>
+    <select name="building_id" class="form-control">
+        <option value="">-- Pilih --</option>
+        {% for building in buildings %}
+        <option {{ selectedBuilding == building.id ? 'selected' : '' }} value="{{ building.id }}">{{ building.name }}</option>
+        {% endfor %}
+    </select>
+</div>

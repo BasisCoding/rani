@@ -1,0 +1,178 @@
+url       = "asset/detail/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminAssetDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'asset';
+    $this->page->activePage = 'asset';
+    $this->page->title      = $this->asset->code;
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => env('APP_URL').'dashboard'
+        ],[
+            'title' => 'Asset',
+            'url'   => env('APP_URL').'asset'
+        ],[
+            'title' => $this->asset->parent->name,
+            'url'   => env('APP_URL').'asset/item/'.$this->asset->parent->parameter
+        ],[
+            'title' => $this->page->title,
+            'url'   => '#'
+        ],
+    ];
+}
+==
+<div class="row mg-b-30">
+    <div class="col">
+        {% partial 'button/button-back' page='asset/index'|page %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4>INFORMASI DASAR</h4>
+        {# <div class="ml-auto">
+            <a class="btn btn-primary" href="{{ 'lable'|page({parameter: asset.parameter}) }}" target="_blank" >
+                <i class="fa fa-barcode"></i> LIHAT LABEL
+            </a>
+        </div> #}
+    </div>
+    <div class="card-body pd-0">
+        <table class="table mg-b-0">
+            <tr>
+                <td>Kode</td>
+                <td class="text-right">{{ asset.code }}</td>
+            </tr>
+            <tr>
+                <td>Tanggal Akusisi</td>
+                <td class="text-right">{{ asset.acquisitioned_at|date('d F Y') }}</td>
+            </tr>
+            <tr>
+                <td>Tanggal Batas Masa Garansi</td>
+                <td class="text-right">{{ asset.guaranteed_at ? asset.guaranteed_at|date('d F Y') : 'Tidak ada' }}</td>
+            </tr>
+            <tr>
+                <td>Kategori</td>
+                <td class="text-right">{{ asset.parent.category.parent.name }}</td>
+            </tr>
+            <tr>
+                <td>Jenis</td>
+                <td class="text-right">{{ asset.parent.category.name }}</td>
+            </tr>
+            <tr>
+                <td>Nama</td>
+                <td class="text-right">{{ asset.parent.name }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card-header">
+        <h4>INFORMASI LOKASI</h4>
+        {% if asset.layout_x or asset.layout_y %}
+        <div class="ml-auto">
+            <a class="btn btn-primary" href="{{ 'asset/location'|page({parameter: asset.parameter}) }}">
+                <i class="fa fa-map-marker"></i> LIHAT LOKASI
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="card-body pd-0">
+        <table class="table mg-b-0">
+            <tr>
+                <td>Kantor</td>
+                <td class="text-right">{{ asset.room.building.office.name }}</td>
+            </tr>
+            <tr>
+                <td>Gedung</td>
+                <td class="text-right">{{ asset.room.building.name }}</td>
+            </tr>
+            <tr>
+                <td>Ruang</td>
+                <td class="text-right">{{ asset.room.name }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card-header">
+        <h4>INFORMASI MITRA</h4>
+    </div>
+    <div class="card-body pd-0">
+        <table class="table mg-b-0">
+            <tr>
+                <td>Nama</td>
+                <td class="text-right">{{ asset.historyLast.partner.name ?: 'Tidak ada data' }}</td>
+            </tr>
+            <tr>
+                <td>Telepon</td>
+                <td class="text-right">{{ asset.historyLast.partner.phone ?: 'Tidak ada data' }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td class="text-right">{{ asset.historyLast.partner.email ?: 'Tidak ada data' }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card-header">
+        <h4>INFORMASI MEDIA</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <div class="form-group mb-0">
+                    <label>Tampak Depan</label>
+                    {% component 'viewFrontUploader' %}
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group mb-0">
+                    <label>Tampak Belakang</label>
+                    {% component 'viewBackUploader' %}
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group mb-0">
+                    <label>Tampak Sisi Kiri</label>
+                    {% component 'viewLeftUploader' %}
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group mb-0">
+                    <label>Tampak Sisi Kanan</label>
+                    {% component 'viewRightUploader' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-header">
+        <h4>INFORMASI RIWAYAT</h4>
+    </div>
+    <div class="card-body pd-0">
+        <table class="table mg-b-0">
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Status</th>
+                    <th>Ruangan</th>
+                    <th>Pengguna</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for history in asset.reoderHistory %}
+                <tr>
+                    <td>{{ history.acquisitioned_at|date('d F Y') }}</td>
+                    <td>{{ history.status.name }}</td>
+                    <td>{{ history.room.name }}</td>
+                    <td>{{ history.employee.name ?: 'Tidak ada pengguna' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

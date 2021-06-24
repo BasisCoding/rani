@@ -1,0 +1,40 @@
+url       = "office/edit/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminOfficeDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'location';
+    $this->page->activePage = 'office';
+    $this->page->title      = 'Ubah Data';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Lokasi',
+            'url'   => '#'
+        ],[
+            'title' => 'Kantor',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminOfficeDetail::onSave', {'data-request-flash': ''}) }}
+            {% partial 'office/form' %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

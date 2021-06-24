@@ -1,0 +1,40 @@
+url       = "department/edit/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminDepartmentDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'department';
+    $this->page->title      = 'Ubah Department';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Pengguna',
+            'url'   => '#'
+        ],[
+            'title' => 'Department',
+            'url'   => '#'
+        ],[
+            'title' => 'Ubah Department',
+            'url'   => ''
+        ],
+    ];
+}
+==
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminDepartmentDetail::onSave', {'data-request-flash': ''}) }}
+            {% partial 'department/form' selectedOffice=department.office_id %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

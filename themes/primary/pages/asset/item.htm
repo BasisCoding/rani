@@ -1,0 +1,83 @@
+url       = "asset/item/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminAsset]
+
+[AdminAssetItem]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'asset';
+    $this->page->activePage = 'asset';
+    $this->page->title      = $this->asset->name;
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Asset',
+            'url'   => 'asset/index'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+<div class="row mg-b-30">
+    <div class="col">
+        {% partial 'button/button-back' page='asset/index'|page %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body pd-0">
+        <table class="table datatable">
+            <tfoot>
+                 <tr>
+                    <th>Kode</th>
+                    <th>Kantor</th>
+                    <th>Gedung</th>
+                    <th>Ruangan</th>
+                    <th>Status</th>
+                </tr>
+            </tfoot>
+
+            <thead>
+                <tr>
+                    <th>Kode</th>
+                    <th>Kantor</th>
+                    <th>Gedung</th>
+                    <th>Ruangan</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>
+                        {{ item.code }}
+                        <div class="table-links">
+                            <a href="{{ 'asset/detail'|page({parameter: item.parameter}) }}">Lihat</a>
+                            <div class="bullet"></div>
+                            <a href="{{ 'asset/edit'|page({parameter: item.parameter}) }}">Ubah</a>
+                            <div class="bullet"></div>
+                            <a href="#" class="text-danger"
+                                data-request="onDelete"
+                                data-request-data="'parameter': '{{ item.parameter }}'"
+                                data-request-confirm="Hapus item ini?"
+                                data-attach-loading data-request-flash>Hapus</a>
+                        </div>
+                    </td>
+                    <td>{{ item.room.building.office.name }}</td>
+                    <td>{{ item.room.building.name }}</td>
+                    <td>{{ item.room.name }}</td>
+                    <td><i class="fa fa-question-circle" data-toggle="tooltip" data-title="{{ item.status.description }}"></i> {{ item.status.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+url       = "partner"
+layout    = "default"
+is_hidden = 0
+
+[AdminPartner]
+==
+function onEnd() {
+    $this->page->parentPage = 'partner';
+    $this->page->activePage = 'partner';
+    $this->page->title      = 'Daftar Mitra';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Mitra',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set partners = AdminPartner.getAll %}
+<div class="card">
+    <div class="card-header">
+        <div class="ml-auto">
+            {% partial 'button/button-add' page='partner/add'|page %}
+        </div>
+    </div>
+
+    <div class="card-body pd-0">
+        <table class="table datatable mg-b-0">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>No. Telepon</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>No. Telepon</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% for partner in partners %}
+                <tr>
+                    <td>
+                        {{ partner.name }}
+                        <div class="table-links">
+                            <a href="{{ 'partner/edit'|page({parameter: partner.parameter}) }}">Ubah</a>
+                            <div class="bullet"></div>
+                            <a href="#" class="text-danger"
+                                data-request="onDelete"
+                                data-request-data="'parameter': '{{ partner.parameter }}'"
+                                data-request-confirm="Hapus pemasok ini?"
+                                data-attach-loading data-request-flash>Hapus</a>
+                        </div>
+                    </td>
+                    <td>{{ partner.email ?: 'Tidak ada email' }}</td>
+                    <td>{{ partner.phone ?: 'Tidak ada nomor telepon' }}</td>
+                    <td>{{ partner.created_at|date('Y-m-d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

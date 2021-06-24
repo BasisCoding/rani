@@ -1,0 +1,76 @@
+url       = "department"
+layout    = "default"
+is_hidden = 0
+
+[AdminDepartment]
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'department';
+    $this->page->title      = 'Daftar Department';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Pengguna',
+            'url'   => '#'
+        ],[
+            'title' => 'Department',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set departments = AdminDepartment.getAll %}
+<div class="card">
+    <div class="card-header">
+        <div class="ml-auto">
+            {% partial 'button/button-add' page='department/add'|page %}
+        </div>
+    </div>
+
+    <div class="card-body pd-0">
+        <table class="table datatable mg-b-0">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Kantor</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>Nama</th>
+                    <th>Kantor</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% for department in departments %}
+                <tr>
+                    <td>
+                        {{ department.name }}
+                        <div class="table-links">
+                            <a href="{{ 'department/edit'|page({parameter: department.parameter}) }}">Ubah</a>
+                            <div class="bullet"></div>
+                            <a href="#" class="text-danger"
+                                data-request="AdminDepartment::onDelete"
+                                data-request-data="'parameter': '{{ department.parameter }}'"
+                                data-request-confirm="Hapus department ini?"
+                                data-attach-loading data-request-flash>Hapus</a>
+                        </div>
+                    </td>
+                    <td>{{ department.office.name }}</td>
+                    <td>{{ department.created_at|date('Y-m-d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

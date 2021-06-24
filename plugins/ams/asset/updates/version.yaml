@@ -1,0 +1,19 @@
+1.0.1: First version of Asset
+1.0.2:
+    - Init category base table
+    - create_categories_table.php
+1.0.3:
+    - Init status base table
+    - create_statuses_table.php
+1.0.4:
+    - Init asset and history base table
+    - create_assets_table.php
+    - create_asset_items_table.php
+    - create_histories_table.php
+1.0.5:
+    - Init asset partner base table
+    - create_partners_table.php
+1.0.6:
+    - Init asset reminder base table
+    - create_reminders_table.php
+    - create_asset_reminders_table.php

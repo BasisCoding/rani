@@ -1,0 +1,109 @@
+<div class="main-sidebar sidebar-style-2">
+    <aside id="sidebar-wrapper">
+        <ul class="sidebar-menu mt-3">
+            <li class="menu-header">Menu Utama</li>
+            <li class="{{ this.page.activePage == 'admin-dashboard' ? 'active' : '' }}">
+                <a href="{{ 'home'|page }}" class="nav-link"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+            </li>
+            <li class="{{ this.page.activePage == 'admin-letter' ? 'active' : '' }}">
+                <a href="{{ 'letter/index'|page }}" class="nav-link"><i class="fas fa-file-alt"></i> <span>Berita</span></a>
+            </li>
+            {# <li class="{{ this.page.activePage == 'admin-label' ? 'active' : '' }}">
+                <a href="{{ 'label/index'|page }}" class="nav-link"><i class="fas fa-clipboard"></i> <span>Label</span></a>
+            </li> #}
+            <li class="{{ this.page.parentPage == 'asset' ? 'active' : '' }} dropdown">
+                <a href="#" class="has-dropdown nav-link">
+                    <i class="fas fa-cube"></i> <span>Asset</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="{{ this.page.activePage == 'asset' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'asset/index'|page }}">Daftar Asset</a>
+                    </li>
+                    <li class="{{ this.page.activePage == 'category' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'category/index'|page }}">Kategori</a>
+                    </li>
+                    <li class="{{ this.page.activePage == 'status' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'status/index'|page }}">Status</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="{{ this.page.parentPage == 'employee' ? 'active' : '' }} dropdown">
+                <a href="#" class="has-dropdown nav-link">
+                    <i class="fas fa-id-card"></i> <span>Pengguna</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="{{ this.page.activePage == 'employee' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'employee/index'|page }}">Daftar Pengguna</a>
+                    </li>
+                    <li class="{{ this.page.activePage == 'department' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'department/index'|page }}">Department</a>
+                    </li>
+                    <li class="{{ this.page.activePage == 'team' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'team/index'|page }}">Team</a>
+                    </li>
+                    <li class="{{ this.page.activePage == 'unit' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'unit/index'|page }}">Unit</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="{{ this.page.parentPage == 'location' ? 'active' : '' }} dropdown">
+                <a href="{{ 'location/index'|page }}" class="has-dropdown nav-link">
+                    <i class="fas fa-map"></i> <span>Lokasi</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="{{ this.page.activePage == 'office' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'office/index'|page }}">Kantor</a>
+                    </li>
+                    <li class="{{ this.page.activePage == 'building' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'building/index'|page }}">Gedung</a>
+                    </li>
+                    <li class="{{ this.page.activePage == 'room' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'room/index'|page }}">Ruangan</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="{{ this.page.parentPage == 'partner' ? 'active' : '' }} dropdown">
+                <a href="#" class="nav-link has-dropdown">
+                    <i class="fas fa-bezier-curve"></i> <span>Mitra</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="{{ this.page.activePage == 'partner' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'partner/index'|page }}">Daftar Mitra</a>
+                    </li>
+                    <li class="{{ this.page.activePage == 'partner-category' ? 'active': '' }}">
+                        <a class="nav-link" href="{{ 'partner-category/index'|page }}">Kategori</a>
+                    </li>
+                </ul>
+            </li>
+            {# <li class="{{ this.page.activePage == 'reminder' ? 'active' : '' }}">
+                <a href="{{ 'reminder/index'|page }}" class="nav-link">
+                    <i class="fas fa-lightbulb"></i> <span>Pengingat</span>
+                </a>
+            </li>
+            <li  class="{{ this.page.activePage == 'user' ? 'active' : '' }}">
+                <a href="{{ 'user/index'|page }}" class="nav-link"><i class="fas fa-users"></i> <span>Petugas</span></a>
+            </li>
+            <li class="{{ this.page.activePage == 'settings' ? 'active' : '' }}">
+                <a href="{{ 'setting/index'|page }}" class="nav-link">
+                    <i class="fas fa-cog"></i> <span>Pengaturan</span>
+                </a>
+            </li> #}
+
+            <li class="menu-header">Akun Saya</li>
+            <li  class="{{ this.page.activePage == 'account-profile' ? 'active' : '' }}">
+                <a href="{{ 'account/profile'|page }}" class="nav-link"><i class="fas fa-user"></i> <span>Ubah Profile</span></a>
+            </li>
+            <li  class="{{ this.page.activePage == 'account-password' ? 'active' : '' }}">
+                <a href="{{ 'account/password'|page }}" class="nav-link"><i class="fas fa-lock"></i> <span>Ubah Password</span></a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-request="onLogout" data-attach-loading data-request-flash><i class="fas fa-sign-out-alt"></i> <span>Keluar</span></a>
+            </li>
+        </ul>
+        {# <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
+            <a href="#" class="btn btn-primary btn-lg btn-block btn-icon-split">
+                <i class="fas fa-clipboard"></i> Audit Asset
+            </a>
+        </div> #}
+    </aside>
+</div>

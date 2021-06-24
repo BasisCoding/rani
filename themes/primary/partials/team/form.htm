@@ -1,0 +1,14 @@
+<div class="form-group">
+    <label>Department</label>
+    <select name="department_id" class="form-control">
+    	<option value="">-- Pilih --</option>
+    	{% for department in departments %}
+    	<option {{ selectedDepartment == department.id ? 'selected' : '' }} value="{{ department.id }}">{{ department.office.name }} - {{ department.name }}</option>
+    	{% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label>Nama</label>
+    <input type="text" class="form-control" name="name" value="{{ team.name }}">
+</div>

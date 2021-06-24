@@ -1,0 +1,27 @@
+<input type="hidden" name="type" value="{{ type }}">
+<div class="row">
+    <div class="col">
+        <div class="card card-large-icons card-reminder-type" bis_skin_checked="1">
+            <a href="#" data-request="onSelectType" data-request-data="'type': 'once'" data-request-update="'reminder/select-type': '[data-target-reminders]'"></a>
+            <div class="card-icon {{ type ? type == 'once' ? 'bg-primary text-white' : 'bg-light' : 'bg-light' }} " bis_skin_checked="1">
+                <i class="fas fa-stopwatch"></i>
+            </div>
+            <div class="card-body" bis_skin_checked="1">
+                <h4>Hanya Sekali</h4>
+                <p>Pengingat akan berjalan hanya satu kali pada tanggal yang telah diatur.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card card-large-icons card-reminder-type" bis_skin_checked="1">
+            <a href="#" data-request="onSelectType" data-request-data="'type': 'repeat'" data-request-update="'reminder/select-type': '[data-target-reminders]'"></a>
+            <div class="card-icon {{ type ? type == 'repeat' ? 'bg-primary text-white' : 'bg-light' : 'bg-light' }} " bis_skin_checked="1">
+                <i class="fas fa-retweet"></i>
+            </div>
+            <div class="card-body" bis_skin_checked="1">
+                <h4>Berulang</h4>
+                <p>Pengingat akan berjalan berulang pada tanggal yang telah diatur.</p>
+            </div>
+        </div>
+    </div>
+</div>

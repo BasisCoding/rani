@@ -1,0 +1,13 @@
+<div class="form-group">
+    <label>Lokasi</label>
+    <select name="room_id" class="form-control"
+            data-request="onSelectRoom"
+            data-request-success="$('#modalLayout').modal('show')"
+            data-request-update="'asset/room-layout': '[data-request-layouts]'"
+        >
+        <option value="">-- Pilih --</option>
+        {% for room in rooms %}
+        <option {{ selectedRoom == room.id ? 'selected' : '' }} value="{{ room.id }}">{{ room.name }}</option>
+        {% endfor %}
+    </select>
+</div>

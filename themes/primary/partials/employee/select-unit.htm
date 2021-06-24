@@ -1,0 +1,9 @@
+<div class="form-group">
+    <label>Unit</label>
+    <select name="unit_id" class="form-control">
+        <option value="">-- Pilih --</option>
+        {% for unit in units %}
+        <option {{ selectedUnit == unit.id ? 'selected' : '' }}  value="{{ unit.id }}">{{ unit.name }}</option>
+        {% endfor %}
+    </select>
+</div>

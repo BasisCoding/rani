@@ -1,0 +1,24 @@
+<div class="form-group">
+        <label>Berkas</label>
+        <input type="file" name="document" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label>Nomor Surat</label>
+        <input type="text" name="number" class="form-control" value="{{ letter.number }}">
+    </div>
+
+    <div class="form-group">
+        <label>Kantor</label>
+        <select name="office_id" class="form-control">
+            <option value="">-- Pilih --</option>
+            {% for office in offices %}
+            <option {{ selectedOffice == office.id ? 'selected' : '' }} value="{{ office.id }}">{{ office.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Keterangan</label>
+        <textarea name="body" cols="30" rows="10" class="form-control">{{ letter.description }}</textarea>
+    </div>

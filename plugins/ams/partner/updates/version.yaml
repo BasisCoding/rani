@@ -1,0 +1,8 @@
+1.0.1: First version of Partner
+1.0.2:
+    - init partner base table
+    - create_partners_table.php
+1.0.3:
+    - init partner relation base table
+    - create_categories_table.php
+    - create_partner_categories_table.php

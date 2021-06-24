@@ -1,0 +1,32 @@
+url       = "reminder/add"
+layout    = "default"
+is_hidden = 0
+
+[AdminReminder]
+==
+function onEnd() {
+    $this->page->activePage = 'reminder';
+    $this->page->title      = 'Buat Pengingat';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Pengingat',
+            'url'   => ''
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set assets = AdminReminder.getAsset %}
+
+<div class="mg-b-30">
+    {% partial 'button/button-back' page='reminder/index'|page %}
+</div>
+
+{{ form_ajax('AdminReminder::onSave', {'data-request-flash': ''}) }}
+    {% partial 'reminder/form' assets=assets %}
+{{ form_close() }}

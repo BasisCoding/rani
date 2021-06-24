@@ -1,0 +1,44 @@
+url       = "room/edit/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminRoom]
+
+[AdminRoomDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'location';
+    $this->page->activePage = 'room';
+    $this->page->title      = 'Ubah Data';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Lokasi',
+            'url'   => '#'
+        ],[
+            'title' => 'Ruangan',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set offices   = AdminRoom.getOffice() %}
+{% set buildings = AdminRoom.getBuilding(room.building.office_id) %}
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminRoomDetail::onSave', {'data-request-flash': ''}) }}
+            {% partial 'room/form' offices=offices buildings=buildings selectedOffice=room.building.office_id selectedBuilding=room.building_id %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

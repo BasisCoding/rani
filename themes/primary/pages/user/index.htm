@@ -1,0 +1,87 @@
+url       = "officer"
+layout    = "default"
+is_hidden = 0
+
+[AdminUser]
+==
+function onEnd() {
+    $this->page->activePage = 'user';
+    $this->page->title      = 'Daftar Petugas';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Petugas',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set users = AdminUser.getAll %}
+<div class="card">
+    <div class="card-header">
+        <div class="ml-auto">
+            {% partial 'button/button-add' page='user/add'|page %}
+        </div>
+    </div>
+
+    <div class="card-body pd-0">
+        <table class="table datatable mg-b-0">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Nama</th>
+                    <th>Password</th>
+                    <th>Status</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>Email</th>
+                    <th>Nama</th>
+                    <th>Password</th>
+                    <th>Status</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>
+                        {{ user.email }}
+
+                        <div class="table-links">
+                            <a href="{{ 'user/edit'|page({parameter: user.parameter}) }}">Ubah</a>
+                            {% if userLogin.id != user.id %}
+                            <div class="bullet"></div>
+                            <a href="#" class="text-danger"
+                                data-request="onDelete"
+                                data-request-data="'parameter': '{{ user.parameter }}'"
+                                data-request-confirm="Hapus petugas ini?"
+                                data-attach-loading data-request-flash>Hapus</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>{{ user.name }} {{ user.id == userLogin.id ? '<small class="text-muted">(Ini Anda)</small>' : '' }}</td>
+                    <td>{{ user.plain }}</td>
+                    <td>
+                        {% if user.is_admin %}
+                        <div class="badge badge-success">Administrator</div>
+                        {% else %}
+                        <div class="badge badge-light">Petugas</div>
+                        {% endif %}
+                    </td>
+                    <td>{{ user.created_at|date('Y-m-d H:i') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

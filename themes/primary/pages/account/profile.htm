@@ -1,0 +1,43 @@
+url       = "account/profile"
+layout    = "default"
+is_hidden = 0
+
+[Auth]
+==
+function onEnd() {
+    $this->page->activePage = 'account-profile';
+    $this->page->title      = 'Ubah Profile';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Akun Saya',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => '#'
+        ]
+    ];
+}
+==
+<div class="card">
+    <div class="card-body">
+        <form data-request="Auth::onUpdateProfile" data-request-flash>
+            <div class="form-group">
+                <label>Nama</label>
+                <input type="text" class="form-control" name="name" value="{{ userLogin.name }}">
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" name="email" value="{{ userLogin.email }}">
+            </div>
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        </form>
+    </div>
+</div>

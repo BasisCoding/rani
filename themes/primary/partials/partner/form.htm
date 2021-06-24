@@ -1,0 +1,39 @@
+<div class="form-group">
+    <label>Nama</label>
+    <input name="name" type="text" class="form-control" value="{{ partner.name }}">
+</div>
+
+<div class="form-group">
+	<label>Kategori</label>
+	<div class="selectgroup selectgroup-pills">
+        <label class="selectgroup-item">
+            <input type="checkbox" name="category_id" value="" class="selectgroup-input" data-checkboxes="group" data-checkbox-role="dad" id="checkbox-all">
+            <span class="selectgroup-button">Pilih Semua</span>
+        </label>
+        {% for category in categories %}
+        <label class="selectgroup-item">
+            <input data-source="category" type="checkbox" name="category_id[]" value="{{ category.id }}" class="selectgroup-input" data-checkboxes="group" id="checkbox-0"
+            {% for c in partner.categories %}
+            	{{ category.id == c.id ? 'checked' : '' }}
+            {% endfor %}
+            >
+            <span class="selectgroup-button">{{ category.name }}</span>
+        </label>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="form-group">
+    <label>No. Telepon</label> <small class="text-muted">(Opsional)</small>
+    <input name="phone" type="text" class="form-control" value="{{ partner.phone }}">
+</div>
+
+<div class="form-group">
+    <label>Email</label> <small class="text-muted">(Opsional)</small>
+    <input name="email" type="email" class="form-control" value="{{ partner.email }}">
+</div>
+
+<div class="form-group">
+    <label>Alamat Lengkap</label> <small class="text-muted">(Opsional)</small>
+    <textarea name="address" rows="5" class="form-control">{{ partner.address }}</textarea>
+</div>

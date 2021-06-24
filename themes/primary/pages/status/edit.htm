@@ -1,0 +1,40 @@
+url       = "status/edit/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminStatusDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'asset';
+    $this->page->activePage = 'status';
+    $this->page->title      = 'Ubah Status Asset';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Asset',
+            'url'   => '#'
+        ],[
+            'title' => 'Status',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminStatusDetail::onSave', {'data-request-flash': ''}) }}
+            {% partial 'status/form' %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

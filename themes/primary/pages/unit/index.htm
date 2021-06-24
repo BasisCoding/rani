@@ -1,0 +1,76 @@
+url       = "unit"
+layout    = "default"
+is_hidden = 0
+
+[AdminUnit]
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'unit';
+    $this->page->title      = 'Daftar Unit';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Pengguna',
+            'url'   => '#'
+        ],[
+            'title' => 'Unit',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set units = AdminUnit.getAll %}
+<div class="card">
+    <div class="card-header">
+        <div class="ml-auto">
+            {% partial 'button/button-add' page='unit/add'|page %}
+        </div>
+    </div>
+
+    <div class="card-body pd-0">
+        <table class="table datatable mg-b-0">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Team</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>Nama</th>
+                    <th>Team</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% for unit in units %}
+                <tr>
+                    <td>
+                        {{ unit.name }}
+                        <div class="table-links">
+                            <a href="{{ 'unit/edit'|page({parameter: unit.parameter}) }}">Ubah</a>
+                            <div class="bullet"></div>
+                            <a href="#" class="text-danger"
+                                data-request="AdminUnit::onDelete"
+                                data-request-data="'parameter': '{{ unit.parameter }}'"
+                                data-request-confirm="Hapus unit ini?"
+                                data-attach-loading data-request-flash>Hapus</a>
+                        </div>
+                    </td>
+                    <td>{{ unit.team.name }}</td>
+                    <td>{{ unit.created_at|date('Y-m-d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

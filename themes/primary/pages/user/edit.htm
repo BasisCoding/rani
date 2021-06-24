@@ -1,0 +1,34 @@
+url       = "officer/edit/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminUserDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->activePage = 'user';
+    $this->page->title      = 'Ubah Data';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Petugas',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+<div class="row mg-b-30">
+    <div class="col">
+        {% partial 'button/button-back' page='user/index'|page %}
+    </div>
+</div>
+
+{% set users = AdminUser.getAll %}
+<div class="card">
+    {% partial 'user/form' %}
+</div>

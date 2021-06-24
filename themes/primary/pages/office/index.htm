@@ -1,0 +1,82 @@
+url       = "office"
+layout    = "default"
+is_hidden = 0
+
+[AdminOffice]
+==
+function onEnd() {
+    $this->page->parentPage = 'location';
+    $this->page->activePage = 'office';
+    $this->page->title      = 'Daftar Kantor';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Lokasi',
+            'url'   => '#'
+        ],[
+            'title' => 'Kantor',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set offices = AdminOffice.getAll %}
+<div class="card">
+    <div class="card-header">
+        <div class="ml-auto">
+            {% partial 'button/button-add' page='office/add'|page %}
+        </div>
+    </div>
+
+    <div class="card-body pd-0">
+        <table class="table datatable mg-b-0">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Kode</th>
+                    <th>Gedung</th>
+                    <th>Ruangan</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>Nama</th>
+                    <th>Kode</th>
+                    <th>Gedung</th>
+                    <th>Ruangan</th>
+                    <th>Tanggal Dibuat</th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% for office in offices %}
+                <tr>
+                    <td>
+                        {{ office.name }}
+                        <div class="table-links">
+                            <a href="{{ 'office/edit'|page({parameter: office.parameter}) }}">Ubah</a>
+                            <div class="bullet"></div>
+                            <a href="#" class="text-danger"
+                                data-request="onDelete"
+                                data-request-data="'parameter': '{{ office.parameter }}'"
+                                data-request-confirm="Hapus kantor ini?"
+                                data-attach-loading data-request-flash>Hapus</a>
+                        </div>
+                    </td>
+                    <td>{{ office.code }}</td>
+                    <td>{{ office.buildings.count }} Gedung</td>
+                    <td>{{ office.getRoom.count() }} Ruangan</td>
+                    <td>{{ office.created_at|date('Y-m-d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

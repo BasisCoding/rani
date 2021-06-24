@@ -1,0 +1,47 @@
+url       = "letter/detail/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminLetterDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->activePage = 'admin-letter';
+    $this->page->title      = 'Detail Berita';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Berita',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+<div class="mg-b-20">
+    {% partial 'button/button-back' page='report/index'|page %}
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4>INFORMASI DASAR</h4>
+    </div>
+    <div class="card-body">
+        <div class="mb-4">
+            <p class="m-0">Nomor Surat</p>
+            <p class="mg-b-0 text-muted">{{ letter.number }}</p>
+        </div>
+        <div class="mb-4">
+            <p class="m-0">Lampiran</p>
+            <p class="mg-b-0 text-muted"><a href="{{ leter.document.path }}">Lihat</a></p>
+        </div>
+        <div class="mb-4">
+            <p class="m-0">Deskripsi</p>
+            <p class="mg-b-0 text-muted">{{ letter.description ?: 'Tidak ada data' }}</p>
+        </div>
+    </div>
+</div>

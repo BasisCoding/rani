@@ -1,0 +1,27 @@
+url       = "officer/add"
+layout    = "default"
+is_hidden = 0
+
+[AdminUser]
+==
+function onEnd() {
+    $this->page->activePage = 'user';
+    $this->page->title      = 'Buat Baru';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Petugas',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set users = AdminUser.getAll %}
+<div class="card">
+    {% partial 'user/form' isCreate=true %}
+</div>

@@ -1,0 +1,138 @@
+url       = "report/detail/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminReportDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->activePage = 'admin-report';
+    $this->page->title      = 'Detail Laporan';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Laporan',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+<div class="mg-b-20">
+    {% partial 'button/button-back' page='report/index'|page %}
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4>INFORMASI DASAR</h4>
+
+        {% if not report.is_finished %}
+        <div class="ml-auto">
+            <button class="btn btn-success"
+                data-request="onFinished"
+                data-request-confirm="Tandai laporan ini?"
+                data-request-flash
+                data attach-loading>
+                <i class="fa fa-check-circle"></i> TANDAI TELAH SELESAI
+            </button>
+        </div>
+        {% endif %}
+    </div>
+    <div class="card-body">
+       <p class="mg-b-0">{{ report.body }}</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4>INFORMASI LAMPIRAN</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% for attachment in report.attachments %}
+            <div class="col-4 mg-b-20">
+                <a href="{{ attachment.path }}" target="_blank">
+                    <img src="{{ attachment.path }}" alt="" class="img-responsive">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-header">
+        <h4>INFORMASI ASSET</h4>
+    </div>
+    <div class="card-body pd-0">
+        <table class="table mg-b-0">
+            <tr>
+                <td>Kode</td>
+                <td class="text-right">{{ report.asset.code }}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td class="text-right"><i class="fa fa-question-circle" data-toggle="tooltip" data-title="{{ report.asset.status.description }}"></i> {{ report.asset.status.name }}</td>
+            </tr>
+            <tr>
+                <td>Tanggal Akusisi</td>
+                <td class="text-right">{{ report.asset.acquisitioned_at|date('d F Y') }}</td>
+            </tr>
+            <tr>
+                <td>Tanggal Batas Masa Garansi</td>
+                <td class="text-right">{{ report.asset.guaranteed_at ? report.asset.guaranteed_at|date('d F Y') : 'Tidak ada' }}</td>
+            </tr>
+            <tr>
+                <td>Kategori</td>
+                <td class="text-right">{{ report.asset.parent.category.parent.name }}</td>
+            </tr>
+            <tr>
+                <td>Jenis</td>
+                <td class="text-right">{{ report.asset.parent.category.name }}</td>
+            </tr>
+            <tr>
+                <td>Nama</td>
+                <td class="text-right">{{ report.asset.parent.name }}</td>
+            </tr>
+            <tr>
+                <td>Kantor</td>
+                <td class="text-right">{{ report.asset.room.building.office.name }}</td>
+            </tr>
+            <tr>
+                <td>Gedung</td>
+                <td class="text-right">{{ report.asset.room.building.name }}</td>
+            </tr>
+            <tr>
+                <td>Ruang</td>
+                <td class="text-right">{{ report.asset.room.name }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4>INFORMASI PETUGAS</h4>
+    </div>
+    <div class="card-body pd-0">
+        <table class="table mg-b-0">
+            <tr>
+                <td>Nama</td>
+                <td class="text-right">{{ report.user.name ?: 'Tidak ada data' }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td class="text-right">{{ report.user.email }}</td>
+            </tr>
+            <tr>
+                <td>Tanggal Terdaftar</td>
+                <td class="text-right">{{ report.user.created_at|date('l, d F Y H:i') }}</td>
+            </tr>
+        </table>
+    </div>
+</div>

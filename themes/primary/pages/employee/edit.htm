@@ -1,0 +1,53 @@
+url       = "employee/edit/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminEmployee]
+
+[AdminEmployeeDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'employee';
+    $this->page->title      = 'Ubah Karyawan';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Karyawan',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set departments = AdminEmployee.getDepartment %}
+{% set teams       = AdminEmployee.getTeam(employee.department_id) %}
+{% set units       = AdminEmployee.getUnit(employee.team_id) %}
+
+<div class="mg-b-40">
+    {% partial 'button/button-back' page='employee/index'|page %}
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminEmployeeDetail::onSave', {'data-request-flash': ''}) }}
+            {% partial 'employee/form'
+                employee=employee departments=departments teams=teams units=units
+                selectedOffice=employee.office_id
+                selectedDepartment=employee.department_id
+                selectedTeam=employee.team_id
+                selectedUnit=employee.unit_id
+            %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

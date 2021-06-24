@@ -1,0 +1,86 @@
+title     = "Masuk"
+url       = "/"
+is_hidden = 0
+
+[Auth]
+==
+<!DOCTYPE html>
+<html>
+    <head>
+        {% partial 'head' %}
+
+        {% styles %}
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div id="app">
+            <section class="section">
+                <div class="d-flex flex-wrap align-items-stretch">
+                    <div class="col-lg-4 col-md-6 col-12 order-lg-1 min-vh-100 order-2 bg-white">
+                        <div class="p-4 m-3">
+                            <h4>Assets Management System</h4>
+                            <p class="text-muted">Sebelum Anda memulai, Anda harus masuk atau mendaftar jika Anda belum memiliki akun.</p>
+                            <form data-request="Auth::onLogin" data-request-flash>
+                                <div class="form-group">
+                                    <label for="email">NIK</label>
+                                    <input id="email" type="text" class="form-control" name="nik" tabindex="1" autofocus>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password" class="control-label">Password</label>
+                                    <input id="password" type="password" class="form-control" name="password" tabindex="2">
+                                </div>
+
+                                <div class="form-group text-right">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-icon icon-right" tabindex="4" data-attach-loading>
+                                        MASUK
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-12 order-lg-2 order-1 min-vh-100 background-walk-y position-relative overlay-gradient-bottom" data-background="{{ 'assets/images/login-bg.jpg'|theme }}">
+                        <div class="absolute-bottom-left index-2">
+                            <div class="text-light p-5 pb-2">
+                                <div class="mb-5 pb-3">
+                                    <h1 class="mb-2 display-4 font-weight-bold">Good Morning</h1>
+                                    <h5 class="font-weight-normal text-muted-transparent">Bali, Indonesia</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <script src="{{ [
+            '@jquery',
+            '@framework',
+            '@framework.extras',
+
+            'assets/modules/popper.js/dist/umd/popper.min.js',
+            'assets/modules/tooltip.js/dist/umd/tooltip.min.js',
+            'assets/modules/bootstrap/dist/js/bootstrap.min.js',
+            'assets/modules/nicescroll/dist/jquery.nicescroll.min.js',
+            'assets/modules/moment/min/moment.min.js',
+            'assets/js/stisla.js',
+
+            'assets/js/scripts.js',
+            'assets/js/custom.js',
+
+            'assets/js/app.js']|theme }}"></script>
+
+        {% scripts %}
+
+        {% partial 'tracker' %}
+
+        {% partial 'flash' %}
+
+    </body>
+</html>

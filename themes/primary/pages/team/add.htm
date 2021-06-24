@@ -1,0 +1,40 @@
+url       = "team/add"
+layout    = "default"
+is_hidden = 0
+
+[AdminTeam]
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'team';
+    $this->page->title      = 'Buat Team';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Karyawan',
+            'url'   => '#'
+        ],[
+            'title' => 'Team',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set departments = AdminTeam.getDepartment %}
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminTeam::onSave', {'data-request-flash': ''}) }}
+            {% partial 'team/form' departments=departments %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

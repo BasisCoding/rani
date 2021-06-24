@@ -1,0 +1,43 @@
+url       = "unit/edit/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminUnit]
+
+[AdminUnitDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'unit';
+    $this->page->title      = 'Ubah Unit';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Pengguna',
+            'url'   => '#'
+        ],[
+            'title' => 'Unit',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set teams = AdminUnit.getTeam %}
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminUnitDetail::onSave', {'data-request-flash': ''}) }}
+            {% partial 'unit/form' teams=teams selectedTeam=unit.team_id %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

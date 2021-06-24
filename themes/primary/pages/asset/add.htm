@@ -1,0 +1,43 @@
+url       = "asset/add"
+layout    = "default"
+is_hidden = 0
+
+[AdminAsset]
+==
+function onEnd() {
+    $this->page->parentPage = 'asset';
+    $this->page->activePage = 'asset';
+    $this->page->title      = 'Buat Baru';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Master Data',
+            'url'   => '#'
+        ],[
+            'title' => 'Asset',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set assets          = AdminAsset.getAll %}
+{% set offices         = AdminAsset.getOffice %}
+{% set statuses        = AdminAsset.getStatusCreate %}
+{% set employees       = AdminAsset.getEmployee %}
+{% set partners        = AdminAsset.getPartner %}
+
+
+{{ form_ajax('AdminAsset::onSave', {'data-request-flash': ''}) }}
+    {% partial 'asset/form'
+        assets=assets
+        offices=offices
+        employees=employees
+        statuses=statuses
+        partners=partners
+    %}
+{{ form_close() }}

@@ -1,0 +1,40 @@
+url       = "department/add"
+layout    = "default"
+is_hidden = 0
+
+[AdminDepartment]
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'department';
+    $this->page->title      = 'Buat Department';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Karyawan',
+            'url'   => '#'
+        ],[
+            'title' => 'Department',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set departments = AdminDepartment.getDepartment %}
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminDepartment::onSave', {'data-request-flash': ''}) }}
+            {% partial 'department/form' %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

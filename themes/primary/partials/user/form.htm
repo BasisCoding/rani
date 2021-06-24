@@ -1,0 +1,42 @@
+<form data-request="onSave" data-request-flash>
+    <div class="card-header">
+        <div class="ml-auto">
+            <label class="custom-switch">
+                <input type="checkbox" name="is_admin" value="1" class="custom-switch-input" {{ user.is_admin ? 'checked' : '' }}>
+                <span class="custom-switch-indicator"></span>
+                <span class="custom-switch-description">Jadikan Administrator</span>
+            </label>
+        </div>
+    </div>
+    <div class="card-body">
+        <form data-request="onSave" data-request-flash>
+            <div class="form-group">
+                <label>Nama</label>
+                <input type="text" class="form-control" name="name" value="{{ user.name }}">
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" name="email" value="{{ user.email }}">
+            </div>
+
+            {% if isCreate %}
+            <hr>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password">
+            </div>
+
+            <div class="form-group">
+                <label>Ulangi Password</label>
+                <input type="password" class="form-control" name="password_retype">
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        </form>
+    </div>
+</form>

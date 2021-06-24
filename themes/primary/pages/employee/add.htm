@@ -1,0 +1,39 @@
+url       = "employee/add"
+layout    = "default"
+is_hidden = 0
+
+[AdminEmployee]
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'employee';
+    $this->page->title      = 'Buat Karyawan';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Karyawan',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set employees   = AdminEmployee.getAll %}
+{% set departments = AdminEmployee.getDepartment %}
+
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminEmployee::onSave', {'data-request-flash': ''}) }}
+            {% partial 'employee/form' departments=departments %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

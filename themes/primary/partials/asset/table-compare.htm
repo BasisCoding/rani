@@ -1,0 +1,46 @@
+<table class="table table-bordered mg-b-0">
+	<tbody>
+		<thead>
+			<tr>
+				<th></th>
+                <th class="text-right">Data Sebelum</th>
+                <th class="text-right">Data Sekarang</th>
+			</tr>
+		</thead>
+		<tr class="{{ prev.acquisitioned_at == current.acquisitioned_at ?: 'bg-warning' }}">
+			<td>Tanggal</td>
+            <td class="text-right">{{ prev.acquisitioned_at|date('d F Y') }}</td>
+            <td class="text-right">{{ current.acquisitioned_at|date('d F Y') }}</td>
+		</tr>
+        <tr class="{{ prev.status.id == current.status.id ?: 'bg-warning' }}">
+			<td>Status</td>
+			<td class="text-right">{{ prev.status.name }}</td>
+			<td class="text-right">{{ current.status.name }}</td>
+		</tr>
+        <tr class="{{ prev.room.building.office.id == current.room.building.office.id ?: 'bg-warning' }}">
+			<td>Kantor</td>
+			<td class="text-right">{{ prev.room.building.office.name }}</td>
+			<td class="text-right">{{ current.room.building.office.name }}</td>
+		</tr>
+        <tr class="{{ prev.room.building.id == current.room.building.id ?: 'bg-warning' }}">
+			<td>Gedung</td>
+			<td class="text-right">{{ prev.room.building.name }}</td>
+			<td class="text-right">{{ current.room.building.name }}</td>
+		</tr>
+        <tr class="{{ prev.room_id == current.room_id ?: 'bg-warning' }}">
+			<td>Ruangan</td>
+			<td class="text-right">{{ prev.room.name }}</td>
+			<td class="text-right">{{ current.room.name }}</td>
+		</tr>
+        <tr class="{{ prev.layout_x == current.layout_x ?: 'bg-warning' }}">
+			<td>Denah</td>
+			<td class="text-right">{{ prev.layout_x ?: 'Tidak ada' }}</td>
+			<td class="text-right">{{ current.layout_x ?: 'Tidak ada' }}</td>
+		</tr>
+        <tr class="{{ prev.employee_id == current.employee_id ?: 'bg-warning' }}">
+			<td>Pengguna</td>
+			<td class="text-right">{{ prev.employee.name ?: 'Tidak ada' }}</td>
+			<td class="text-right">{{ current.employee.name ?: 'Tidak ada' }}</td>
+		</tr>
+	</tbody>
+</table>

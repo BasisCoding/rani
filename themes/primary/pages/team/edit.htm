@@ -1,0 +1,43 @@
+url       = "team/edit/:parameter"
+layout    = "default"
+is_hidden = 0
+
+[AdminTeam]
+
+[AdminTeamDetail]
+parameter="{{ :parameter }}"
+==
+function onEnd() {
+    $this->page->parentPage = 'employee';
+    $this->page->activePage = 'team';
+    $this->page->title      = 'Ubah Team';
+    $this['breadcrumbs']    = [
+        [
+            'title' => 'Dashboard',
+            'url'   => '',
+        ],[
+            'title' => 'Pengguna',
+            'url'   => '#'
+        ],[
+            'title' => 'Team',
+            'url'   => '#'
+        ],[
+            'title' => $this->page->title,
+            'url'   => ''
+        ],
+    ];
+}
+==
+{% set departments = AdminTeam.getDepartment %}
+<div class="card">
+    <div class="card-body">
+        {{ form_ajax('AdminTeamDetail::onSave', {'data-request-flash': ''}) }}
+            {% partial 'team/form' departments=departments selectedDepartment=team.department_id %}
+
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button class="btn btn-primary btn-block" type="submit" data-attach-loading>SIMPAN</button>
+            </div>
+        {{ form_close() }}
+    </div>
+</div>

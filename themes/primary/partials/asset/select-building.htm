@@ -1,0 +1,11 @@
+<div class="form-group">
+    <label>Gedung</label>
+    <select name="building_id" class="form-control"
+        data-request="onSelectBuilding"
+        data-request-update="'asset/select-room': '[data-target-rooms]'">
+        <option value="">-- Pilih --</option>
+        {% for building in buildings %}
+        <option {{ selectedBuilding == building.id ? 'selected' : '' }} value="{{ building.id }}">{{ building.name }}</option>
+        {% endfor %}
+    </select>
+</div>
